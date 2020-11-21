@@ -27,8 +27,7 @@ const getTeachers = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = 3;
-    const sortingData = (req.query.sort = "asc" ? 1 : sort === "desc" ? -1 : 0);
-
+    const sortingData = req.query.sort === "asc" ? 1 : -1;
     let filterationData;
     if (req.query.gender === "male") {
       filterationData = "male";
@@ -37,17 +36,9 @@ const getTeachers = async (req, res) => {
     } else {
       filterationData = null;
     }
-          // const filterationData =
-          //   req.query.gender === "female"
-          //     ? "female"
-          //     : req.query.gender === "male"
-          //     ? "male"
-          //     : null;
-
+         
     const id = req.query.teacher_id;
-    // console.log(id);
-    // const teachers = await Teachers.find({ teacher_id: id });
-    // res.status(200).send(teachers);
+
 
     const queryData = {
       teacher_id: req.query.teacher_id
@@ -61,7 +52,6 @@ const getTeachers = async (req, res) => {
       .sort({ age: sortingData })
       .skip((page - 1) * limit)
         .limit(limit);
-console.log(teacherData)
     const count = await Teachers.countDocuments(queryData).exec();
     const total = Math.ceil(count / limit);
     res.status(200).json({ teacherData, count, total, page, limit });
@@ -71,13 +61,15 @@ console.log(teacherData)
     
 };
 const teacherDetails = async (req, res) => {
-  try {
-    const teachers = await Teachers.find(query);
-    const name = req.query.name.toLowerCase();
-    const query = {
-      teacher_id: mongoose.Types.ObjectId(req.query.teacher_id),
-    };
 
+  try {
+       const name = req.query.name.toLowerCase();
+       const query = {
+         teacher_id: mongoose.Types.ObjectId(req.query.teacher_id),
+       };
+
+    const teachers = await Teachers.find(query);
+ 
     let temp = teachers.filter((item) =>
       item.name.toLowerCase().includes(name)
     );

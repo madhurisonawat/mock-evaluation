@@ -30,12 +30,13 @@ const getTeacherFailure = () => ({
   type: GET_TEACHER_FAILURE,
 });
 
-export const getTeacher = (payload,sort,gender,page) => (dispatch) => {
-dispatch(getTeacherAttempt())
+export const getTeacher = (payload) => (dispatch) => {
+  dispatch(getTeacherAttempt())
+console.log(payload)
   return axios
-    .get( `http://localhost:5000/api/getTeacher?teacher_id=${payload}&sort=${sort}&gender=${gender}&page=${page}`)
+    .get( `http://localhost:5000/api/getTeacher?teacher_id=${payload.id}&sort=${payload.sort}&gender=${payload.gen}&page=${payload.page}`)
     .then((res) => dispatch(getTeacherSuccess(res.data)))
-    .catch((err) => dispatch(getTeacherFailure(err.response.data)));
+    .catch((err) => dispatch(getTeacherFailure(err)));
 };
 
 const addTeacherAttempt = (payload) => ({
@@ -116,7 +117,7 @@ const searchTeacherFailure = () => ({
 export const searchTeacher = (id, payload) => (dispatch) => {
   dispatch(searchTeacherAttempt());
   return axios
-    .get(`http://localhost:5000/api/teacher?teacher_id=${id}/&name=${payload}`)
+    .get(`http://localhost:5000/api/teacher?teacher_id=${id}&name=${payload}`)
     .then((res) => dispatch(searchTeacherSuccess(res.data)))
     .catch((err) => dispatch(searchTeacherFailure(err.response.data)));
 };

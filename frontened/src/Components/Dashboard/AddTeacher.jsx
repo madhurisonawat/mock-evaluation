@@ -37,10 +37,7 @@ export default function AddTeacher() {
                 section: section,
                 subject: subj,
             },
-                {
-                    section: section1,
-                    subject: subj1,  
-            }],
+          ],
             gender: gender,
             teacher_id: userData._id
         }

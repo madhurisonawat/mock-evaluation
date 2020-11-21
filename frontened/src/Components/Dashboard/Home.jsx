@@ -15,6 +15,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import { updateTeacher,removeTeacher } from '../../Redux/teacher/action'
 import Appbar from './Appbar'
 import styles from './styles.module.css'
+import Pagination from '@material-ui/lab/Pagination';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -88,21 +89,34 @@ export default function Home() {
     const { user_id, loginData ,loginStatus} = useSelector((state) => state.auth);
     const userData = JSON.parse(localStorage.getItem("UserDetails"))
     const data = useSelector((state) => state.teacher.teacherData);
+    const { limit, total } = useSelector((state) => state.teacher);
     const [state, setState] = useState({ name: '', age: '', gender: '', class: [{ section: '', subject: '' }] });
     const dispatch = useDispatch()
     const[id,setId] =useState("")
     const [show, setShow] = useState(false)
     const [sort, setSort] = useState("")
     const [gen, setGen] = useState("")
+    const[page,setPage] = useState("")
 
     const getTeacherData = () => {
-        const id =userData._id
-        dispatch(getTeacher(id,sort,gen,1))
+     
+        let obj = {
+            id: userData._id,
+            sort: sort,
+            gen: gen,
+            page:page
+        }
+        dispatch(getTeacher(obj))
     }
     useEffect(() => {
         getTeacherData()
-    }, [id,show])
+    }, [id, show, gen, sort,page])
+
+    const handlePage = (e) => {
     
+        setPage(e.target.innerText)
+    }
+
     const handleEdit = (item) => {
         setId(item._id)
         setState(item)
@@ -132,6 +146,10 @@ export default function Home() {
         <>
             <Container>
                 <Appbar />
+                <div className={classes.root}>
+                    <Pagination onChange={handlePage} count={total} color="secondary" />
+                
+                </div>
                 {show ? <>
                     <Box >
                         <h1>Edit Teachers</h1>
@@ -195,15 +213,17 @@ export default function Home() {
                     :
                 <>
                         <div className={styles.hoverDiv}>
-                         Sort BY Order
+                            Sort BY Order
                             <div className={`${styles.innerHoverDiv}`}>
+                                <p onClick={() => setSort("")}>Sort</p>
                                 <p onClick={() => setSort("asc")}>Ascending</p>
                                 <p onClick={() => setSort("dsc")}>Descending</p>
                             </div>
                         </div>
                         <div className={styles.hoverDiv}>
-                           sort By Gender
+                            sort By Gender
                             <div className={`${styles.innerHoverDiv}`}>
+                                <p onClick={() => setGen("")}>Gender</p>
                                 <p onClick={() => setGen("male")}>Male</p>
                                 <p onClick={() => setGen("female")}>Female</p>
                             </div>

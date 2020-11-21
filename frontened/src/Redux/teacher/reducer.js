@@ -18,7 +18,10 @@ import {
 
 const initialState = {
   isLoading: false,
-teacherData:[]
+  teacherData: [],
+  page: "",
+  limit: "",
+  total:""
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -26,10 +29,14 @@ export default (state = initialState, { type, payload }) => {
     case GET_TEACHER_ATTEMPT:
       return { ...state, isLoading: true };
     case GET_TEACHER_SUCCESS: {
+     
       return {
         ...state,
         isLoading: false,
         teacherData: payload.teacherData,
+        page: payload.page,
+        limit: payload.limit,
+        total: payload.total,
       };
     }
     case GET_TEACHER_FAILURE: {
