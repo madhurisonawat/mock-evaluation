@@ -40,11 +40,13 @@ export default (state = initialState, { type, payload }) => {
       };
     }
     case GET_TEACHER_FAILURE: {
+       
       return { ...state, isLoading: false };
     }
     case ADD_TEACHER_ATTEMPT:
       return { ...state, isLoading: true };
     case ADD_TEACHER_SUCCESS: {
+      console.log(payload)
       return {
         ...state,
         isLoading: false,

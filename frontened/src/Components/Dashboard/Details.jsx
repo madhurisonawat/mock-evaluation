@@ -11,8 +11,6 @@ export default function Details() {
     const history = useHistory()
     let data = useSelector((state) => state.teacher.teacherData);
     let newData = data.filter((item) => item.name === params.id)
-
-    
     return (
         <>
             {newData && newData.map((item) => (
@@ -33,12 +31,23 @@ export default function Details() {
                         <Box>
                             Total Classes: {item.class.length}
                         </Box>
-                        <Box>
-                           Section : {item.class[0].section}
-                        </Box>
-                        <Box>
-                            Subject : {item.class[0].subject}
-                        </Box>
+
+                        {item.class.map((it,i) => (
+                            <Grid key={i}>
+                                <Box>
+                                    Section : {it.section}
+                                </Box>
+                                <Box>
+                                    Subject : {it.subject}
+                                </Box>
+                                <Box>
+                                    Grade : {it.grade}
+                                    </Box>
+                                
+                            </Grid>
+                        ))}
+                            
+                     
                         <Box>
                             Gender : {item.gender}
                         </Box>

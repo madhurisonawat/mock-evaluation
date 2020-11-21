@@ -49,7 +49,8 @@ export default function Register() {
         e.preventDefault()
         dispatch(registerUser({ name, email, password }));
         alert('logged in')
-        history.push('/login')
+        
+
     }
    
 
@@ -71,6 +72,7 @@ export default function Register() {
                 onSubmit={(event) => {
                     event.preventDefault();
                     dispatch(registerUser({ name, email, password }));
+                    history.push('/login')
                 }}
             >
                 <Grid container spacing={2}>

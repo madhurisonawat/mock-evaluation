@@ -31,13 +31,15 @@ const getTeacherFailure = () => ({
 });
 
 export const getTeacher = (payload) => (dispatch) => {
-  dispatch(getTeacherAttempt())
-console.log(payload)
+  dispatch(getTeacherAttempt());
   return axios
-    .get( `http://localhost:5000/api/getTeacher?teacher_id=${payload.id}&sort=${payload.sort}&gender=${payload.gen}&page=${payload.page}`)
+    .get(
+      `http://localhost:5000/api/getTeacher?teacher_id=${payload.id}&sort=${payload.sort}&gender=${payload.gen}&page=${payload.page}`
+    )
     .then((res) => dispatch(getTeacherSuccess(res.data)))
     .catch((err) => dispatch(getTeacherFailure(err)));
 };
+
 
 const addTeacherAttempt = (payload) => ({
   type: ADD_TEACHER_ATTEMPT,
